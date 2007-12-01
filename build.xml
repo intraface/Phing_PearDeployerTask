@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+<!--
+    This contains the build script for the various PEAR packages contained in this repo.
+-->
+<project name="IlibPearDeployerTask" basedir="." default="make">
+    <includepath classpath="${project.basedir}/src" />
+    <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2" />
+
+    <property name="version" value="0.1.0" />
+
+    <target name="export">
+        <echo msg="Exporting SVN files" />
+        <delete dir="./build" />
+        <exec command="svn export ./src ./build" />
+    </target>
+
+    <target name="build" depends="export">
+        <d51pearpkg2 dir="./build"
+                     baseinstalldir="/">
+            <name>Phing_IlibPearDeployerTask</name>
+            <summary>A task to deploy pear packages to a server</summary>
+            <channel>public.intraface.dk</channel>
+            <description>
+                <!--        Don't exceed this width         -->
+                A task to deploy pear packages to a server.
+            </description>
+
+            <lead user="lsolesen" name="Lars Olesen" email="lars@legestue.net" />
+            <license>LGPL</license>
+
+            <version release="${version}" api="0.1.0" />
+            <stability release="alpha" api="alpha" />
+
+            <dependencies>
+                <php minimum_version="5.2.0" />
+
+                <pear minimum_version="1.6.0"
+                      recommended_version="1.6.1" />
+
+                <package name="Salty_PEAR_Server_RemoteReleaseDeployer"
+                         channel="pear.saltybeagle.com"
+                         recommended_version="0.0.1"
+                         minimum_version="0.0.1" />
+            </dependencies>
+
+            <changelog version="0.1.0" date="2007-12-01" license="LGPL">
+                First version as a PEAR package
+            </changelog>
+        </d51pearpkg2>
+    </target>
+
+    <target name="make" depends="build">
+        <echo msg="Creating PEAR archive file for PHP_Callback" />
+        <mkdir dir="./build/Phing_IlibPearDeployerTask-${version}" />
+        <copy todir="./build/Phing_IlibPearDeployerTask-${version}">
+            <fileset dir="./build">
+                <include name="phing*/**" />
+            </fileset>
+        </copy>
+        <delete dir="./build/phing" />
+        <delete file="Phing_IlibPearDeployerTask-${version}.tgz" />
+        <tar compression="gzip" destfile="Phing_IlibPearDeployerTask-${version}.tgz" basedir="./build" />
+    </target>
+
+    <target name="docs" depends="export">
+        <echo msg="Creating documentation" />
+        <phpdoc title="Phing_IlibPearDeployerTask Docs"
+            destdir="./apidocs"
+            sourcecode="./build"
+            output="HTML:frames:DOM/earthli"
+        >
+            <fileset dir="./build">
+                <include name="**" />
+            </fileset>
+        </phpdoc>
+    </target>
+</project>
