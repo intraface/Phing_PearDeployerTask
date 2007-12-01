@@ -11,7 +11,7 @@ require_once 'phing/Task.php';
  * A task to deploy pear packages
  *
  * @author   Lars Olesen <lars@legestue.net>
- * @package phing.tasks.ext
+ * @package  phing.tasks.ext
  */
 class IlibPearDeployTask extends Task
 {
@@ -124,7 +124,7 @@ class IlibPearDeployTask extends Task
         if ($d->deployRelease($file)) {
             //echo 'Success!';
         } else {
-            throw new BuildException("Unable to deploy release to pear server.", new Exception($e->getMessage()));
+            throw new BuildException('Unable to deploy release to pear server.', new Exception($e->getMessage()));
         }
     }
 }
