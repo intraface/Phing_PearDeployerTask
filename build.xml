@@ -3,8 +3,10 @@
     This contains the build script for the various PEAR packages contained in this repo.
 -->
 <project name="IlibPearDeployerTask" basedir="." default="make">
-    <includepath classpath="${project.basedir}/src" />
+    <property file="./build.properties" />
     <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2" />
+    <taskdef classname="phing.tasks.ext.IlibPearDeployerTask" name="peardeploy" />
+
 
     <property name="version" value="0.1.0" />
 
@@ -61,6 +63,16 @@
         <delete file="Phing_IlibPearDeployerTask-${version}.tgz" />
         <tar compression="gzip" destfile="Phing_IlibPearDeployerTask-${version}.tgz" basedir="./build" />
     </target>
+
+    <target name="deploy" depends="make">
+        <echo msg="Deploying package" />
+        <peardeploy uri="${pear.channel.uri}" username="${pear.channel.username}" password="${pear.channel.password}">
+              <fileset dir="./">
+                <include name="Phing_IlibPearDeployerTask-${version}.tgz"/>
+              </fileset>
+        </peardeploy>
+    </target>
+
 
     <target name="docs" depends="export">
         <echo msg="Creating documentation" />
