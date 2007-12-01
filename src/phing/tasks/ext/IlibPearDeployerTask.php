@@ -17,23 +17,9 @@ class IlibPearDeployTask extends Task
 {
     protected $file;    // the source file (from xml attribute)
     protected $filesets = array(); // all fileset objects assigned to this task
-
-    protected $errorProperty;
-    protected $haltOnFailure = false;
-    protected $hasErrors = false;
-    private $badFiles = array();
-
-    /**
-     * The haltonfailure property
-     *
-     * @param boolean $aValue
-     *
-     * @return void
-     */
-    public function setHaltOnFailure($aValue)
-    {
-        $this->haltOnFailure = $aValue;
-    }
+    protected $uri;
+    protected $username;
+    protected $password;
 
     /**
      * Sets uri to the channel server
@@ -84,18 +70,6 @@ class IlibPearDeployTask extends Task
     }
 
     /**
-     * Set an property name in which to put any errors.
-     *
-     * @param string $propname
-     *
-     * @return void
-     */
-    public function setErrorproperty($propname)
-    {
-        $this->errorProperty = $propname;
-    }
-
-    /**
      * Nested creator, creates a FileSet for this task
      *
      * @return FileSet The created fileset object
@@ -118,7 +92,7 @@ class IlibPearDeployTask extends Task
         }
 
         if($this->file instanceof PhingFile) {
-            $this->phpcs($this->file->getPath());
+            $this->deploy($this->file->getPath());
         } else { // process filesets
             $project = $this->getProject();
             foreach($this->filesets as $fs) {
@@ -130,8 +104,6 @@ class IlibPearDeployTask extends Task
                 }
             }
         }
-
-        if ($this->haltOnFailure && $this->hasErrors) throw new BuildException('Syntax error(s) in PHP files: '.implode(', ',$this->badFiles));
     }
 
     /**
