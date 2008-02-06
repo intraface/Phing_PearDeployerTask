@@ -2,16 +2,26 @@
 /**
  * A task to deploy pear packages
  *
+ * PHP version 5
+ *
+ * @category Phing
+ * @package  Phing_IlibPearDeployerTask
  * @author   Lars Olesen <lars@legestue.net>
- * @package phing.tasks.ext
+ * @license  LGPL
+ * @version  @package-version@
+ * @link     http://public.intraface.dk/index.php?package=Phing_IlibPearDeployerTask
  */
 require_once 'phing/Task.php';
 
 /**
  * A task to deploy pear packages
  *
+ * @category Phing
+ * @package  Phing_IlibPearDeployerTask
  * @author   Lars Olesen <lars@legestue.net>
- * @package  phing.tasks.ext
+ * @license  LGPL
+ * @version  @package-version@
+ * @link     http://public.intraface.dk/index.php?package=Phing_IlibPearDeployerTask
  */
 class IlibPearDeployerTask extends Task
 {
@@ -24,19 +34,19 @@ class IlibPearDeployerTask extends Task
     /**
      * Sets uri to the channel server
      *
-     * @param string $aValue
+     * @param string $url The uri for the channel server
      *
      * @return void
      */
-    public function setUri($aValue)
+    public function setUri($url)
     {
-        $this->uri = $aValue;
+        $this->uri = $url;
     }
 
     /**
      * Sets username to use for the channel server
      *
-     * @param string $aValue
+     * @param string $aValue The username
      *
      * @return void
      */
@@ -48,7 +58,7 @@ class IlibPearDeployerTask extends Task
     /**
      * Sets password for the channel server
      *
-     * @param string $aValue
+     * @param string $aValue The password
      *
      * @return void
      */
@@ -60,7 +70,7 @@ class IlibPearDeployerTask extends Task
     /**
      * File to be performed syntax check on
      *
-     * @param PhingFile $file
+     * @param PhingFile $file A file
      *
      * @return void
      */
@@ -87,19 +97,19 @@ class IlibPearDeployerTask extends Task
      */
     public function main()
     {
-        if(!isset($this->file) and count($this->filesets) == 0) {
+        if (!isset($this->file) and count($this->filesets) == 0) {
             throw new BuildException("Missing either a nested fileset or attribute 'file' set");
         }
 
-        if($this->file instanceof PhingFile) {
+        if ($this->file instanceof PhingFile) {
             $this->deploy($this->file->getPath());
         } else { // process filesets
             $project = $this->getProject();
-            foreach($this->filesets as $fs) {
-                $ds = $fs->getDirectoryScanner($project);
+            foreach ($this->filesets as $fs) {
+                $ds    = $fs->getDirectoryScanner($project);
                 $files = $ds->getIncludedFiles();
-                $dir = $fs->getDir($this->project)->getPath();
-                foreach($files as $file) {
+                $dir   = $fs->getDir($this->project)->getPath();
+                foreach ($files as $file) {
                     $this->deploy($dir.DIRECTORY_SEPARATOR.$file);
                 }
             }
@@ -109,14 +119,14 @@ class IlibPearDeployerTask extends Task
     /**
      * Performs the deployment
      *
-     * @param string $file
+     * @param string $file File to deploy
      *
      * @return void
      */
     protected function deploy($file)
     {
-        require_once 'Salty/PEAR/Server/RemoteReleaseDeployer.php';
-        $d = new Salty_PEAR_Server_RemoteReleaseDeployer();
+        include_once 'Salty/PEAR/Server/RemoteReleaseDeployer.php';
+        $d           = new Salty_PEAR_Server_RemoteReleaseDeployer();
         $d->adminuri = $this->uri;
         $d->username = $this->username;
         $d->password = $this->password;
