@@ -109,6 +109,8 @@ class IlibPearDeployerTask extends Task
     /**
      * Execute lint check against PhingFile or a FileSet
      *
+     * @todo Might be clever to make sure that there are some files to deploy.
+     *
      * @return void
      */
     public function main()
