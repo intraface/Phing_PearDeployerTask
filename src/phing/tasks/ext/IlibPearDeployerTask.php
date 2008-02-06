@@ -1,6 +1,6 @@
 <?php
 /**
- * A task to deploy pear packages
+ * A phing task to deploy pear packages to a pear channel
  *
  * PHP version 5
  *
@@ -14,7 +14,23 @@
 require_once 'phing/Task.php';
 
 /**
- * A task to deploy pear packages
+ * A phing task to deploy pear packages to a pear channel
+ *
+ * <code>
+ * <project name="Phing_IlibPearDeployerTask" basedir="." default="make">
+ *   <taskdef classname="phing.tasks.ext.IlibPearDeployerTask" name="peardeploy" />
+ *   <!-- .. -->
+ *   <target name="deploy" depends="make">
+ *     <echo msg="Deploying package" />
+ *     <peardeploy uri="${pear.channel.uri}" username="${pear.channel.username}" password="${pear.channel.password}">
+ *       <fileset dir="./">
+ *         <include name="${pear.package}"/>
+ *       </fileset>
+ *     </peardeploy>
+ *   </target>
+ *   <!-- .. -->
+ * </project>
+ * </code>
  *
  * @category Phing
  * @package  Phing_IlibPearDeployerTask
