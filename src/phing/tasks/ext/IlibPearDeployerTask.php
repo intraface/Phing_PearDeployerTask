@@ -13,7 +13,7 @@ require_once 'phing/Task.php';
  * @author   Lars Olesen <lars@legestue.net>
  * @package  phing.tasks.ext
  */
-class IlibPearDeployTask extends Task
+class IlibPearDeployerTask extends Task
 {
     protected $file;    // the source file (from xml attribute)
     protected $filesets = array(); // all fileset objects assigned to this task
@@ -122,7 +122,7 @@ class IlibPearDeployTask extends Task
         $d->password = $this->password;
 
         if ($d->deployRelease($file)) {
-            //echo 'Success!';
+            $this->log('Release has been deployed on the pear channel.');
         } else {
             throw new BuildException('Unable to deploy release to pear server.', new Exception($e->getMessage()));
         }
