@@ -153,7 +153,7 @@ class IlibPearDeployerTask extends Task
         if ($d->deployRelease($file)) {
             $this->log('Release has been deployed on the pear channel.');
         } else {
-            throw new BuildException('Unable to deploy release to pear server.', new Exception($e->getMessage()));
+            throw new BuildException('Unable to deploy release to pear server.');
         }
     }
 }
