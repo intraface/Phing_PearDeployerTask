@@ -55,7 +55,7 @@
             <dependencies>
                 <php minimum_version="5.2.0" />
                 <pear minimum_version="1.6.0" recommended_version="1.6.1" />
-                <package name="Salty_PEAR_Server_RemoteReleaseDeployer" channel="pear.saltybeagle.com" recommended_version="0.0.1" minimum_version="0.0.1" />
+                <package name="Salty_PEAR_Server_RemoteReleaseDeployer" channel="pear.saltybeagle.com" minimum_version="0.0.1" />
             </dependencies>
             <notes>
                 * QA Release
